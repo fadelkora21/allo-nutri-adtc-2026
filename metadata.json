@@ -1,0 +1,37 @@
+{
+  "team_id": "fadelkora21",
+  "domain": "agriculture",
+  "language_scope": ["en", "fr", "ha"],
+  "african_alpha_claim": true,
+  "budget_laptop_claim": true,
+  "submitter": {
+    "name": "Kora Sabi Janvier KORA BATA",
+    "email": "fadelkora21@gmail.com",
+    "github_handle": "fadelkora21"
+  },
+  "cross_disciplinary_pairing": {
+    "discipline": "poultry nutrition and operations research",
+    "load_bearing": true,
+    "description": "The local language model explains and safety-checks outputs from an auditable least-cost poultry-feed optimizer designed around ingredients and infrastructure constraints in Benin."
+  },
+  "test_prompts": [
+    {
+      "prompt_id": "tp_001",
+      "prompt": "You are advising a small poultry farmer in Benin. The proposed 100 kg starter ration reaches 22% crude protein but only 2,850 kcal/kg metabolizable energy. The configured minimum is 3,000 kcal/kg. Explain whether it should be approved and what must be corrected. Do not invent a new formula or change verified optimizer quantities."
+    },
+    {
+      "prompt_id": "tp_002",
+      "prompt": "A grower ration contains cottonseed cake. Explain the gossypol risk, why a phase-specific inclusion ceiling is used, and why a ferrous-sulfate dosage must not be guessed without measured free gossypol. Give a concise, practical answer for a poultry farmer."
+    }
+  ],
+  "model": {
+    "name": "ALLO-NUTRI-Qwen2.5-1.5B-Instruct-Q4_K_M",
+    "runtime": "llama.cpp",
+    "quantization": "GGUF Q4_K_M",
+    "parameters_estimate": "1.5B",
+    "packaging": "binary_bundle"
+  },
+  "_runtime": {
+    "model_path": "model/allo-nutri-qwen2.5-1.5b-q4_k_m.gguf"
+  }
+}

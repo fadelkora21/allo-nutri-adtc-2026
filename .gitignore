@@ -1,0 +1,10 @@
+*.gguf
+*.gguf.part
+model/*
+!model/.gitkeep
+__pycache__/
+*.pyc
+benchmark_results.json
+submission.json
+audit.json
+.venv/
