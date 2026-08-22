@@ -175,10 +175,19 @@ The application’s automated tests verify:
 - ration scaling to 50 kg;
 - invalid ingredient-selection handling;
 - Hausa localisation.
-
 The current automated-test result is:
 
 ```text
+Ran 4 tests
+OK
+```
+
+The repository preflight result is:
+
+```text
+Submission preflight: PASS
+```
+
 ## 9. Development Benchmarks
 
 The following results were generated on the participant’s development computer using the official ADTC profiler in participant mode.
@@ -216,5 +225,56 @@ Download the model with:
 
 ```bash
 bash download_model.sh
-Ran 4 tests
+```
+
+The expected model path is:
+
+```text
+model/allo-nutri-qwen2.5-1.5b-q4_k_m.gguf
+```
+
+Validate the repository with:
+
+```bash
+python3 validate_submission.py
+```
+
+Run the official participant profiler with:
+
+```bash
+adtc-profiler run \
+  --submission . \
+  --mode participant \
+  --output submission.json \
+  --skip-accuracy
+```
+
+The profiling result records:
+
+```json
+{
+  "measured_on": "participant_laptop",
+  "claimed_params_estimate": "1.8B",
+  "params_match": true
+}
+```
+
+## 11. Current Limitations and Next Steps
+
+Current limitations include:
+
+- ingredient-composition values requiring local laboratory calibration;
+- limited field testing with smallholder farmers;
+- no automatic seasonal price prediction;
+- no laboratory-data integration;
+- hardware-temperature monitoring limitations under WSL.
+
+Next steps include:
+
+- validating ingredient values with Beninese feed data;
+- testing the interface with smallholder poultry farmers;
+- expanding the ingredient database;
+- improving Hausa agricultural terminology;
+- integrating seasonal ingredient-price and availability information while preserving offline functionality.
+
 OK
