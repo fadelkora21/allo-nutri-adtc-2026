@@ -179,5 +179,42 @@ The application’s automated tests verify:
 The current automated-test result is:
 
 ```text
+## 9. Development Benchmarks
+
+The following results were generated on the participant’s development computer using the official ADTC profiler in participant mode.
+
+| Metric | Result |
+|---|---|
+| Measured on | Participant laptop |
+| Processor | 12th Gen Intel Core i5-1235U |
+| Available RAM | 7.6 GB |
+| GPU | None used |
+| Operating system | Ubuntu 24.04.1 LTS through WSL |
+| Model parameter count | 1,777,088,000 |
+| Model context length | 32,768 tokens |
+| Model architecture | Qwen2 |
+| Peak RSS memory | 1,823.82 MB |
+| Steady-state RSS memory | 1,743.07 MB |
+| Peak virtual memory | 2,313.98 MB |
+| First-token latency | 13,754.06 ms |
+| Prompt tokens | 512 |
+| Generated tokens | 128 |
+| Generation speed | 14.1 tokens/second |
+| CPU utilisation, p99 | 55.2% |
+| Thermal throttling | None detected |
+| Temperature reading | Not reliably exposed by WSL |
+
+The model remained well below the challenge’s 7 GB evaluation memory ceiling. Its peak resident memory was approximately 1.82 GB.
+
+WSL did not expose a reliable physical CPU-temperature reading. The displayed 5°C sensor value was therefore excluded rather than presented as a valid hardware temperature. The profiler reported no CPU throttling.
+
+Accuracy evaluation was skipped during this local smoke test, following the submission-validation instructions. Accuracy will be evaluated by the organizers.
+
+## 10. Reproducibility
+
+Download the model with:
+
+```bash
+bash download_model.sh
 Ran 4 tests
 OK
