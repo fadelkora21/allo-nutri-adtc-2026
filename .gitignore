@@ -1,10 +1,12 @@
 *.gguf
 *.gguf.part
-model/*
-!model/.gitkeep
+model/
+llama.cpp/
+
 __pycache__/
 *.pyc
+.venv/
+
 benchmark_results.json
 submission.json
 audit.json
-.venv/
