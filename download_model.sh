@@ -1,25 +1,68 @@
 #!/usr/bin/env bash
+
 set -euo pipefail
 
-MODEL_DIR="model"
-MODEL_PATH="$MODEL_DIR/allo-nutri-qwen2.5-1.5b-q4_k_m.gguf"
+HERE="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+
+MODEL_DIR="$HERE/model"
+MODEL_FILE="$MODEL_DIR/allo-nutri-qwen2.5-1.5b-q4_k_m.gguf"
+PARTIAL_FILE="$MODEL_FILE.part"
+
 MODEL_URL="https://huggingface.co/Qwen/Qwen2.5-1.5B-Instruct-GGUF/resolve/main/qwen2.5-1.5b-instruct-q4_k_m.gguf"
 
 mkdir -p "$MODEL_DIR"
 
-if [[ -s "$MODEL_PATH" ]] && [[ "$(head -c 4 "$MODEL_PATH")" == "GGUF" ]]; then
-  echo "Model already present and has a GGUF header: $MODEL_PATH"
-  exit 0
+is_valid_gguf() {
+    local file="$1"
+
+    if [[ ! -s "$file" ]]; then
+        return 1
+    fi
+
+    [[ "$(head -c 4 "$file")" == "GGUF" ]]
+}
+
+if is_valid_gguf "$MODEL_FILE"; then
+    echo "Model already present and valid:"
+    echo "$MODEL_FILE"
+    exit 0
 fi
 
-temporary_path="$MODEL_PATH.part"
-curl --fail --location --retry 4 --retry-delay 3 --continue-at - \
-  --output "$temporary_path" "$MODEL_URL"
-
-if [[ "$(head -c 4 "$temporary_path")" != "GGUF" ]]; then
-  echo "Downloaded file does not have a valid GGUF header." >&2
-  exit 1
+if [[ -f "$MODEL_FILE" ]]; then
+    echo "Removing invalid or incomplete model file."
+    rm -f "$MODEL_FILE"
 fi
 
-mv "$temporary_path" "$MODEL_PATH"
-echo "Downloaded model to $MODEL_PATH"
+echo "Downloading the ALLO NUTRI GGUF model..."
+echo "Source: $MODEL_URL"
+echo "Destination: $MODEL_FILE"
+
+if command -v curl >/dev/null 2>&1; then
+    curl \
+        --fail \
+        --location \
+        --retry 4 \
+        --retry-delay 3 \
+        --continue-at - \
+        --output "$PARTIAL_FILE" \
+        "$MODEL_URL"
+elif command -v wget >/dev/null 2>&1; then
+    wget \
+        --continue \
+        --output-document="$PARTIAL_FILE" \
+        "$MODEL_URL"
+else
+    echo "Error: curl or wget is required." >&2
+    exit 1
+fi
+
+if ! is_valid_gguf "$PARTIAL_FILE"; then
+    echo "Error: the downloaded file is not a valid GGUF model." >&2
+    rm -f "$PARTIAL_FILE"
+    exit 1
+fi
+
+mv "$PARTIAL_FILE" "$MODEL_FILE"
+
+echo "Model downloaded and validated successfully:"
+echo "$MODEL_FILE"
