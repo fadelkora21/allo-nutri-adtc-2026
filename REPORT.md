@@ -3,6 +3,7 @@
 **Team ID:** allo-nutri-feed-formulator  
 **Domain:** Agriculture  
 **Model:** Qwen2.5 1.5B Instruct Q4_K_M GGUF  
+**Measured parameter count:** 1,777,088,000  
 **Runtime:** llama.cpp  
 **Target environment:** 4 CPU cores, 8 GB RAM, integrated graphics  
 
@@ -51,11 +52,13 @@ This integration is load-bearing because the language model alone cannot safely 
 
 ## 4. Design Decisions
 
-### 4.1 Base model
+### 4.1 Base Model
 
 The prototype uses Qwen2.5 1.5B Instruct.
 
-This model was selected because it offers:
+The GGUF metadata reports an actual parameter count of 1,777,088,000, represented as approximately 1.8B in the submission metadata.
+
+The model was selected because it offers:
 
 - a relatively small parameter count;
 - multilingual instruction-following capability;
@@ -83,9 +86,9 @@ More aggressive quantization could reduce memory consumption further but may red
 
 The model runs through llama.cpp.
 
-The application does not call a cloud model or external inference API. After the model has been downloaded, inference can run with no internet connection.
+The application does not call a cloud model or external inference API. After the model has been downloaded, inference can run without an internet connection.
 
-### 4.4 Deterministic optimizer
+### 4.4 Deterministic Optimizer
 
 The optimizer uses linear programming through SciPy and HiGHS.
 
@@ -117,7 +120,7 @@ ALLO NUTRI was designed around conditions experienced by poultry farmers in Beni
 - need for French and local-language explanations;
 - reliance on affordable consumer laptops.
 
-Hausa support is included because Hausa is widely used in commercial and agricultural exchanges across northern Benin and neighbouring West African areas.
+Hausa support is included because Hausa is used in commercial and agricultural exchanges across northern Benin and neighbouring West African areas.
 
 The system’s offline architecture reduces dependence on internet connectivity and recurring cloud-AI fees.
 
@@ -157,7 +160,7 @@ The application is served locally through `127.0.0.1` and does not expose the se
 The repository preflight validator checks:
 
 - the required submission files;
-- the project ID;
+- the Devpost Project ID;
 - the agriculture domain;
 - the two required test prompts;
 - the llama.cpp runtime;
@@ -166,14 +169,14 @@ The repository preflight validator checks:
 - the model exclusions in `.gitignore`;
 - the model-download script.
 
-The application’s automated tests currently verify:
+The application’s automated tests verify:
 
 - balanced starter-ration formulation;
 - ration scaling to 50 kg;
 - invalid ingredient-selection handling;
 - Hausa localisation.
 
-Current automated-test result:
+The current automated-test result is:
 
 ```text
 Ran 4 tests
